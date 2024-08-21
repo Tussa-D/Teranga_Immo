@@ -23,7 +23,7 @@ return new class extends Migration
                 ->onDelete('cascade') // Supprimer les annonces si le bien est supprimé
                 ->onUpdate('cascade'); // Mettre à jour les clés étrangères si l'id du bien change
             $table->foreignId('proprietaire_id')
-                ->constrained('utilisateurs')
+                ->constrained('users')
                 ->onDelete('cascade') // Supprimer les annonces si l'utilisateur est supprimé
                 ->onUpdate('cascade'); // Mettre à jour les clés étrangères si l'id de l'utilisateur change
             $table->timestamps();

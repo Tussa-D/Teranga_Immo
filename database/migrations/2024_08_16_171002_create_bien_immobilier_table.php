@@ -20,13 +20,14 @@ return new class extends Migration
             $table->string('adresse');
             $table->decimal('surface');
             $table->string('type');
-            $table->string('video')->nullable(); 
+            $table->string('video')->nullable();
             $table->string('image')->nullable();// Permet l'absence d'image
             $table->enum('statut', ['Disponible', 'Sous Offre', 'Vendu', 'Retiré'])->default('Disponible');
             $table->foreignId('proprietaire_id')
-                ->constrained('utilisateurs')
+                ->constrained('users')
                 ->onDelete('cascade') // Supprimer les biens si l'utilisateur est supprimé
                 ->onUpdate('cascade'); // Mettre à jour les clés étrangères si l'id de l'utilisateur change
+
             $table->timestamps();
         });
     }
