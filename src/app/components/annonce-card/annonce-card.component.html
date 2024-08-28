@@ -1,0 +1,9 @@
+<div class="card mb-4">
+    <img [src]="annonce.image" class="card-img-top" alt="{{ annonce.titre }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ annonce.titre }}</h5>
+      <p class="card-text">{{ annonce.description }}</p>
+      <p class="card-text">Prix : {{ annonce.prix | currency:'EUR' }}</p>
+      <a [routerLink]="['/annonce', annonce.id]" class="btn btn-primary">Voir détails</a>
+    </div>
+  </div>

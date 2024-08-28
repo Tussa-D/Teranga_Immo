@@ -1,0 +1,18 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Bienvenue sur notre plateforme immobilière</h1>
+    
+    <div class="mb-4">
+      <input type="text" class="form-control" placeholder="Rechercher une annonce..." 
+             [(ngModel)]="searchTerm" (input)="onSearch()">
+    </div>
+  
+    <div class="row">
+      <div class="col-md-4" *ngFor="let annonce of filteredAnnonces">
+        <app-annonce-card [annonce]="annonce"></app-annonce-card>
+      </div>
+    </div>
+  
+    <div *ngIf="filteredAnnonces.length === 0" class="alert alert-info">
+      Aucune annonce trouvée.
+    </div>
+  </div>
