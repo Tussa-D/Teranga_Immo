@@ -96,26 +96,7 @@ class BienImmobilierController extends Controller
         //return response()->json(null, 204);
     }
 
-    public function search(Request $request)
-    {
-        $query = Bien::query();
-
-        if ($request->has('prix_min')) {
-            $query->where('prix', '>=', $request->input('prix_min'));
-        }
-
-        if ($request->has('prix_max')) {
-            $query->where('prix', '<=', $request->input('prix_max'));
-        }
-
-        if ($request->has('type')) {
-            $query->where('type', $request->input('type'));
-        }
-
-        $biens = $query->get();
-
-        return response()->json($biens);
-    }
+   //telecharger l image
 
     public function uploadImage(Request $request, $id)
     {
@@ -143,4 +124,70 @@ class BienImmobilierController extends Controller
 
         return response()->json(['error' => 'Aucune image n\'a été téléchargée'], 400);
     }
+
+    //rechercher
+    public function search(Request $request)
+    {
+        // Validation des paramètres de recherche
+        $validator = Validator::make($request->all(), [
+            'type' => 'nullable|string',
+            'localisation' => 'nullable|string',
+            'nb_piece' => 'nullable|integer',
+            'prix_min' => 'nullable|numeric',
+            'prix_max' => 'nullable|numeric',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Paramètres de recherche invalides',
+                'details' => $validator->errors()
+            ], 400);
+        }
+    
+        $query = Bien::query();
+    
+        // Filtrer par prix
+        if ($request->has('prix_min')) {
+            $query->where('prix', '>=', $request->input('prix_min'));
+        }
+    
+        if ($request->has('prix_max')) {
+            $query->where('prix', '<=', $request->input('prix_max'));
+        }
+    
+        // Filtrer par type
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+    
+        // Filtrer par localisation
+        if ($request->has('localisation')) {
+            $query->where('adresse', 'like', '%' . $request->input('localisation') . '%');
+        }
+    
+        // Filtrer par nombre de pièces
+        if ($request->has('nb_piece')) {
+            $query->where('Nbpiece', '=', $request->input('nb_piece'));
+        }
+
+
+            // Filtrer par prix
+            if ($request->has('prix_min')) {
+                $query->where('prix', '>=', $request->input('prix_min'));
+            }
+
+            if ($request->has('prix_max')) {
+                $query->where('prix', '<=', $request->input('prix_max'));
+            }   
+    
+        $biens = $query->get();
+    
+        if ($biens->isEmpty()) {
+            return response()->json(['message' => 'Aucun bien trouvé avec les critères spécifiés'], 404);
+        }
+    
+        return response()->json($biens);
+    }
+    
+
 }

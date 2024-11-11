@@ -26,7 +26,9 @@ class Bien extends Model
         'video',
         'image',
         'statut',
-        'proprietaire_id',
+        'proprietaire_id', 
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [

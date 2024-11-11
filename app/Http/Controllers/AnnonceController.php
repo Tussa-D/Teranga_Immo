@@ -25,6 +25,7 @@ class AnnonceController extends Controller
         $validator = Validator::make($request->all(), [
             'date_publication' => 'required|date',
             'description' => 'required|string',
+            'titre' => 'required|string',
             'image' => 'nullable|string',
             'video' => 'nullable|string',
             'bien_id' => 'required|exists:bien_immobilier,id',
@@ -58,9 +59,11 @@ class AnnonceController extends Controller
         $validator = Validator::make($request->all(), [
             'date_publication' => 'date',
             'description' => 'string',
+            'titre' => 'string',
             'image' => 'nullable|string',
             'video' => 'nullable|string',
             'bien_id' => 'exists:bien_immobilier,id',
+    
             'proprietaire_id' => 'exists:users,id',
         ]);
 

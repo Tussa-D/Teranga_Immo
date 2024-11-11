@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
+            $table->string('titre');
             $table->timestamp('date_publication'); // La date de publication
             $table->text('description'); // Description de l'annonce
             $table->string('image')->nullable();
+          // Colonne vidéo
+        $table->enum('statut', ['En cour ','Active', 'Suspended', 'Expired', 'Archived'])->default('En cour'); // Statut de l'annonce
+  
              // Colonne pour stocker le chemin de l'image (peut être NULL)
              $table->string('video')->nullable();
             $table->foreignId('bien_id')

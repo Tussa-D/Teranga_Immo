@@ -1,65 +1,59 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Utilisateur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
-    public function auth(Request $request)
+    // Afficher le formulaire de connexion
+    public function showLoginForm()
     {
-        $this->validate($request, [
+        return view('auth.login');
+    }
+
+    // Authentifier l'utilisateur
+    public function login(Request $request)
+    {
+        // Validation des données
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        // Vérifier si l'email existe dans la base de données
-        $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            return response()->json([
-                'error' => 'Email incorrect'
-            ], 401); // Unauthorized
+        // Vérification des informations d'identification
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // Redirection vers la page d'accueil après connexion réussie
+            return redirect()->route('admin')->with('success', 'Connecté avec succès');
+        } else {
+            // Retour en arrière avec un message d'erreur si l'authentification échoue
+            return back()->withErrors(['email' => 'Email ou mot de passe incorrect']);
         }
-
-        // Vérifier si le mot de passe est correct
-        if (!Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'error' => 'Mot de passe incorrect'
-            ], 401); // Unauthorized
-        }
-
-        // Authentifier l'utilisateur
-        Auth::login($user);
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Connecté avec succès',
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user
-        ]);
     }
 
-    
+    // Afficher le formulaire d'inscription
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
 
-    /**
-     * Register a new user.
-     */
+    // Enregistrer un nouvel utilisateur
     public function register(Request $request)
     {
-        $this->validate($request, [
+        // Validation des données
+        $request->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
+            'password' => 'required|confirmed',
             'nom' => 'required',
             'prenom' => 'required',
             'tel' => 'required',
             'ville' => 'required',
         ]);
 
+        // Création de l'utilisateur
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -69,42 +63,42 @@ class AuthController extends Controller
             'ville' => $request->ville,
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Connexion de l'utilisateur après son enregistrement
+        Auth::login($user);
 
-        return response()->json([
-            'message' => 'Utilisateur créé avec succès',
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ], 201); // Created
+        // Redirection vers la page d'accueil avec un message de succès
+        return redirect()->route('home')->with('success', 'Utilisateur créé et connecté avec succès');
     }
 
-
-
-    public function login()
+    // Déconnecter l'utilisateur
+    public function logout()
     {
-        return response()->json([
-            'message' => 'Login form'
-        ]);
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Déconnexion réussie');
     }
 
-    /**
-     * Log out the user.
-     */
-    public function logout(Request $request)
+    // Afficher le profil de l'utilisateur
+    public function showProfile()
     {
-        $user = $request->user();
-    
-        if ($user) {
-            $request->user()->currentAccessToken()->delete();
-    
-            return response()->json([
-                'message' => 'Déconnexion réussie'
-            ]);
-        } else {
-            return response()->json([
-                'error' => 'Utilisateur non trouvé'
-            ], 404); // Not Found
-        }
+        $user = Auth::user();
+        return view('auth.profile', compact('user'));
     }
-    
+
+    // Modifier le profil de l'utilisateur
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $user->update($request->all());
+        return redirect()->route('profile')->with('success', 'Profil mis à jour avec succès');
+    }
+
+    // Supprimer le compte de l'utilisateur
+    public function deleteAccount()
+    {
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
+        
+        return redirect()->route('register')->with('success', 'Compte supprimé avec succès');
+    }
 }

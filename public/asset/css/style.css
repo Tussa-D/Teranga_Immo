@@ -1,0 +1,58 @@
+body {
+   
+    background-image:url(/asset/images/woye.jpg); /* Chemin de l'image */
+    background-size: cover; /* Couvre tout l'écran sans déformation */
+    background-repeat: no-repeat; /* Empêche l'image de se répéter */
+    background-position: center center; /* Centrer l'image sur l'écran */
+  }
+  
+ 
+  img {
+    max-width: 100%; /* Limite la largeur de l'image à 100% de l'élément parent */
+    height: auto; /* Maintient les proportions de l'image */
+  }
+  
+
+#container{
+    width:400px;
+    margin:0 auto;
+    margin-top:10%;
+}
+/* Bordered form */
+form {
+    width:100%;
+    padding: 30px;
+    border: 1px solid #f1f1f1;
+    background: #ffffff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#container h1{
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+/* Full-width inputs */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+input[type=submit] {
+    background-color:#2d4db8  ;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+input[type=submit]:hover {
+    background-color:#4d64d9;
+    color: hsl(0, 0%, 100%);
+    border: 1px solid #53af57;
+}

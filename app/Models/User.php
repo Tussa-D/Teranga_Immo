@@ -47,6 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bien::class, 'proprietaire_id');
     }
-
+    public function visites()
+    {
+        return $this->hasMany(Visite::class, 'visiteur_id');
+    }
     use HasApiTokens, Notifiable;
 }

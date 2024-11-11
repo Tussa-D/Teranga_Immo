@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('tel');
             $table->string('ville');
             $table->string('email')->unique();
-            $table->enum('role', ['admin', 'client' ,'proprietaire'])->default('client');
+            $table->enum( 'role', ['admin', 'client' ,'proprietaire'])->default('client');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -18,7 +18,9 @@ class Annonce extends Model
         'date_publication',
         'description',
         'image',
-        'video',
+        'titre',
+        'image',  'video',
+        'statut',
         'bien_id',
         'proprietaire_id',
     ];
@@ -33,4 +35,10 @@ class Annonce extends Model
     {
         return $this->belongsTo(User::class, 'proprietaire_id');
     }
+
+     // Relation avec Pack
+     public function pack()
+     {
+         return $this->belongsTo(Pack::class);
+     }
 }
