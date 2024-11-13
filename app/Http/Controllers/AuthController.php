@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    
+
     // Afficher le formulaire de connexion
     public function showLoginForm()
     {
@@ -18,22 +20,39 @@ class AuthController extends Controller
     // Authentifier l'utilisateur
     public function login(Request $request)
     {
-        // Validation des données
+        // Validation des données d'entrée
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
-
-        // Vérification des informations d'identification
-        if (Auth::attempt($request->only('email', 'password'))) {
-            // Redirection vers la page d'accueil après connexion réussie
-            return redirect()->route('admin')->with('success', 'Connecté avec succès');
+    
+        // Vérifier si l'utilisateur existe avec l'email donné
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email incorrect'])->withInput();
+        }
+    
+        // Vérifier si le mot de passe est correct
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Mot de passe incorrect'])->withInput();
+        }
+    
+        // Authentifier l'utilisateur avec Laravel
+        Auth::login($user);
+    
+        // Redirection en fonction du rôle de l'utilisateur
+        if ($user->role === 'admin') {
+            return redirect()->route('admin')->with('success', 'Bienvenue, Admin');
+        } elseif ($user->role === 'proprietaire') {
+            return redirect()->route('proprietaire.dashboard')->with('success', 'Bienvenue, Propriétaire');
+        } elseif ($user->role === 'client') {
+            return redirect()->route('home')->with('success', 'Bienvenue sur la page d\'accueil');
         } else {
-            // Retour en arrière avec un message d'erreur si l'authentification échoue
-            return back()->withErrors(['email' => 'Email ou mot de passe incorrect']);
+            // Par défaut, rediriger vers la page d'accueil si le rôle est inconnu
+            return redirect()->route('home')->with('success', 'Bienvenue');
         }
     }
-
+    
     // Afficher le formulaire d'inscription
     public function showRegisterForm()
     {

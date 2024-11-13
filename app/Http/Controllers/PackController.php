@@ -13,7 +13,7 @@ class PackController extends Controller
     public function index()
     {
         $packs = Pack::all();
-        return response()->json($packs);
+        return view('Admin.Pack.pack', compact('packs'));
     }
 
     // Créer un nouveau pack

@@ -5,6 +5,67 @@
       <!-- 
         - #HERO
       -->
+      <!-- resources/views/recherche_avancee.blade.php -->
+<div class="recherche-avancee">
+    <h2 class="description">RECHERCHE AVANCÉE</h2>
+  
+    <div class="champs-recherche" style="background-image: url('asset/images/hh.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 10px;">
+        <div class="options">
+            <label>
+                <input type="radio" name="action" value="louer" checked> Louer
+            </label>
+            <label>
+                <input type="radio" name="action" value="acheter"> Acheter
+            </label>
+            <label>
+                <input type="radio" name="action" value="estimer"> Estimer
+            </label>
+        </div>
+  
+        <div class="champ-saisie">
+            <label for="localisation">Dans quelle ville ? Quartier ?</label>
+            <input type="text" id="localisation" placeholder="Ville, quartier">
+        </div>
+  
+        <div class="champ-saisie">
+            <label for="budget">Votre budget max ?</label>
+            <input type="number" id="budget" placeholder="€">
+        </div>
+  
+        <div class="champ-saisie">
+            <label for="temps-trajet">Par temps de trajet</label>
+            <input type="text" id="temps-trajet" placeholder="Ex: 30 minutes">
+        </div>
+  
+        <div class="champ-saisie">
+            <label>Dessin sur la carte</label>
+            <input type="checkbox" id="dessin-carte">
+            <label for="dessin-carte">Afficher les résultats sur la carte</label>
+        </div>
+  
+        <div class="type-bien">
+            <label>Type de Bien :</label>
+            <label>
+                <input type="checkbox" name="type-bien" value="maison"> Maison
+            </label>
+            <label>
+                <input type="checkbox" name="type-bien" value="appartement"> Appartement
+            </label>
+        </div>
+  
+        <div class="compte-resultats">108 résultats</div>
+  
+        <div class="groupe-boutons">
+            <button class="btn-reset">RÉINITIALISER</button>
+            <button class="btn-rechercher">RECHERCHER</button>
+        </div>
+    </div>
+  
+    <div class="proprietaire">
+        <p>Propriétaire ? <a href="#" class="btn-deposer-annonce">Déposez votre annonce</a></p>
+    </div>
+</div>
+
 
       <section class="hero" id="home">
         <div class="container">

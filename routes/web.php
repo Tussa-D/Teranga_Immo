@@ -10,15 +10,17 @@ use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\BienImmobilierController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 // Route GET pour afficher le formulaire de connexion
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 // Route POST pour traiter la soumission du formulaire de connexion
 Route::post('/login', [AuthController::class, 'login']);
+// Modifier un utilisateur sur la page admin 
+Route::put('/admin/users/{id}', [AuthController::class, 'update'])->name('users.update');
+
+// Supprimer un utilisateur
+Route::delete('/admin/users/{id}', [AuthController::class, 'destroy'])->name('users.destroy');
+
 
 // Afficher le formulaire d'inscription
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -33,8 +35,78 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [AuthController::class, 'deleteAccount']);
 });
 
-Route::get('/admin', [AdminController::class, 'index']);
+
+
+//route qui marche
+
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/proprietaire', [ProprietaireController::class, 'index']);
+
+
+Route::get('/', function () {
+    return view('Home.home');
+});
+Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces');
+Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
+
+
+Route::get('/bien', [BienImmobilierController::class, 'index'])->name('bien');
+Route::delete('/biens/{bien}', [BienImmobilierController::class, 'destroy'])->name('biens.destroy');
+Route::put('/biens/{bien}', [BienImmobilierController::class, 'update'])->name('biens.update');
+
+
+
+
+// Route GET pour afficher le formulaire de bien
+Route::resource('biens', BienImmobilierController::class);
+Route::get('biens/search', [BienImmobilierController::class, 'search'])->name('biens.search');
+
+
+Route::get('/biens/create', [BienImmobilierController::class, 'create'])->name('biens.create');
+Route::post('/biens/store', [BienImmobilierController::class, 'store'])->name('biens.store');
+
+Route::get('/pack', [PackController::class, 'index'])->name('biens.create');
+
+
+
+//
+
+//ROUTE QUI MARCHE
+
+//ROUTE ANNONCE QUI MARCHE
+
+    // Afficher la liste des annonces
+    Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces.index');
+    // Afficher le formulaire pour ajouter une annonce
+    Route::get('/annonces/create', [AnnonceController::class, 'create'])->name('annonces.create');
+    // Ajouter une annonce (POST)
+    Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
+    // Afficher le formulaire pour éditer une annonce
+
+    // Mettre à jour une annonce spécifique
+    Route::put('/annonces/{id}', [AnnonceController::class, 'update'])->name('annonces.update');
+    Route::delete('/annonces/{id}', [AnnonceController::class, 'destroy'])->name('annonces.destroy');
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/admin', function () {
+//         return view('Admin.User');
+//     })->name('admin');
+
+//     Route::get('/home', function () {
+//         return view('home');
+//     })->name('home');
+
+//     Route::get('/proprietaire', function () {
+//         return view('proprietaire.dashboard');
+//     })->name('proprietaire.dashboard');
+// });
+
+
+
+
+
 
 // // Gestion des biens immobiliers
 // Route::resource('biens', BienImmobilierController::class);
