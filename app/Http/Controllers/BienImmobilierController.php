@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bien;
 use App\Models\User;
+use App\Models\Annonce;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -19,6 +20,14 @@ class BienImmobilierController extends Controller
         $biens = Bien::paginate(10);
         return view('Admin.Bien.listeBien', compact('biens'));
     }
+
+    public function indexHome()
+{
+        $biens = Bien::paginate(10);
+        $annonces = Annonce::with('proprietaire')->get();
+
+        return view('Home.listBien', compact('annonces', 'biens')); // Passez chaque variable séparément
+}
 
     // Afficher le formulaire de connexion
     public function create()
@@ -121,6 +130,8 @@ class BienImmobilierController extends Controller
     public function search(Request $request)
     {
         $query = Bien::query();
+    
+        // Appliquer les filtres de recherche selon les critères
         if ($request->filled('prix_min')) {
             $query->where('prix', '>=', $request->input('prix_min'));
         }
@@ -128,19 +139,52 @@ class BienImmobilierController extends Controller
             $query->where('prix', '<=', $request->input('prix_max'));
         }
         if ($request->filled('type')) {
-            $query->where('type', $request->input('type'));
+            $query->whereIn('type', $request->input('type'));  // Rechercher plusieurs types si sélectionnés
         }
         if ($request->filled('localisation')) {
             $query->where('adresse', 'like', '%' . $request->input('localisation') . '%');
         }
-        if ($request->filled('nb_piece')) {
-            $query->where('Nbpiece', '=', $request->input('nb_piece'));
+        if ($request->filled('Nbpiece')) {
+            $query->where('Nbpiece', '=', $request->input('Nbpiece'));
         }
     
-        $biens = $query->paginate(10);
-        return view('Admin.Bien.listeBien', compact('biens'));
+        // Exécuter la requête et récupérer les résultats
+        $biens = $query->paginate(10);  // Pagination des résultats
+        return view('Home.listesearch', compact('biens'));
     }
-   
+    
+  public function showSearchResults(Request $request)
+{
+    // Initialisation de la requête de base pour les objets Bien
+    $query = Bien::query();
+
+    // Appliquer les filtres de recherche selon les critères
+    if ($request->filled('prix_min')) {
+        $query->where('prix', '>=', $request->input('prix_min'));
+    }
+    if ($request->filled('prix_max')) {
+        $query->where('prix', '<=', $request->input('prix_max'));
+    }
+    if ($request->filled('type')) {
+        $query->whereIn('type', $request->input('type'));  // Rechercher plusieurs types si sélectionnés
+    }
+    if ($request->filled('localisation')) {
+        $query->where('adresse', 'like', '%' . $request->input('localisation') . '%');
+    }
+    if ($request->filled('Nbpiece')) {
+        $query->where('Nbpiece', '=', $request->input('Nbpiece'));
+    }
+
+    // Exécuter la requête et récupérer les résultats
+    $biens = $query->paginate(10);  // Pagination des résultats
+
+    // Récupération des annonces avec les propriétaires
+    $annonces = Annonce::with('proprietaire')->get();
+
+    // Afficher la vue avec les résultats
+    return view('Home.home.listeSearch', compact('biens', 'annonces'));
+}
+
     public function update(Request $request, $id)
     {
         // Validation des données

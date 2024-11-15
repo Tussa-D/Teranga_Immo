@@ -57,16 +57,18 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    
 }
 
 .btn-reset {
-    background-color: #e74c3c;
+    background-color: #189de4;
     color: #fff;
 }
 
 .btn-rechercher {
-    background-color: #3498db;
+    background-color: #0a324d;
     color: #fff;
+    
 }
 
 .proprietaire {
@@ -78,4 +80,41 @@
     color: #3498db;
     text-decoration: none;
     font-weight: bold;
+}
+.groupe-boutons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espace entre les boutons */
+    margin-top: 20px; /* Espacement par rapport aux autres éléments */
+}
+
+.btn-reset, .btn-rechercher {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Styles pour chaque bouton */
+.btn-reset {
+    background-color: #189de4;
+    color: #fff;
+}
+
+.btn-rechercher {
+    background-color: #0a324d;
+    color: #fff;
+}
+
+/* Style pour le bouton 'Déposez votre annonce' */
+.header-top-btn {
+    background-color: #FF5722;
+    color: white;
+    font-weight: bold;
+}
+
+.header-top-btn:hover, .btn-reset:hover, .btn-rechercher:hover {
+    opacity: 0.8; /* Légère transparence au survol */
 }

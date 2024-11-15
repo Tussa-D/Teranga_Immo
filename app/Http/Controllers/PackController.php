@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class PackController extends Controller
 {
+    public function showPacks()
+{
+    $packs = Pack::all(); // Récupère tous les packs
+    return view('Home.vendreBien', compact('packs')); // Passe les packs à la vue
+}
+
     // Liste tous les packs disponibles
     public function index()
     {

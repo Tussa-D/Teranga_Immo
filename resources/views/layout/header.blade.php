@@ -1,5 +1,5 @@
 <header class="header" data-header>
-          
+          <link href="{{ asset('css/styleR.css') }}" rel="stylesheet">
 
   <div class="overlay" data-overlay></div>
 
@@ -66,15 +66,14 @@
     <div class="container">
 
       <a href="#" class="logo">
-        <img src="./assets/images/Teranga.png" alt="Logo Teranga">
+        <img  src="./asset/images/Teranga.png" style="width: 60px; height: auto;" alt="Logo Teranga" >
       </a>
-
       <nav class="navbar" data-navbar>
 
         <div class="navbar-top">
 
           <a href="#" class="logo">
-            <img src="./assets/images/logo.png" alt="Logo Teranga">
+            <img src="./asset/images/Teranga.png" alt="Logo Teranga">
           </a>
 
           <button class="nav-close-btn" data-nav-close-btn aria-label="Fermer le menu">
@@ -91,25 +90,20 @@
             </li>
 
             <li>
-              <a href="#about" class="navbar-link" data-nav-link>À propos</a>
+              <a href="/listbienHome" class="navbar-link" data-nav-link>Liste des biens</a>
+            </li>
+
+            <li>
+              <a href="/vendreBien" class="navbar-link" data-nav-link>Vendre ses biens</a>
             </li>
 
             <li>
               <a href="#service" class="navbar-link" data-nav-link>Services</a>
             </li>
-
             <li>
-              <a href="#property" class="navbar-link" data-nav-link>Biens</a>
+              <a href="#about" class="navbar-link" data-nav-link>À propos</a>
             </li>
-
-            <li>
-              <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
-            </li>
-
-            <li>
-              <a href="#contact" class="navbar-link" data-nav-link>Contact</a>
-            </li>
-
+           
           </ul>
         </div>
 
@@ -117,15 +111,15 @@
 
       <div class="header-bottom-actions">
 
-        <button class="header-bottom-actions-btn" aria-label="Recherche">
+        <button class="header-bottom-actions-btn" onclick="window.location.href='#recherche-avancee';" aria-label="Recherche">
           <ion-icon name="search-outline"></ion-icon>
 
           <span>Recherche</span>
         </button>
 
-        <button class="header-bottom-actions-btn" aria-label="Profil">
-          <ion-icon name="person-outline"></ion-icon>
-
+        <button class="header-bottom-actions-btn" onclick="window.location.href='/login';" aria-label="Profil">
+          <ion-icon name="person-outline" ></ion-icon>
+            
           <span>Profil</span>
         </button>
 

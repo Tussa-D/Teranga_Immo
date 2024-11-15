@@ -17,7 +17,6 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 // Modifier un utilisateur sur la page admin 
 Route::put('/admin/users/{id}', [AuthController::class, 'update'])->name('users.update');
-
 // Supprimer un utilisateur
 Route::delete('/admin/users/{id}', [AuthController::class, 'destroy'])->name('users.destroy');
 
@@ -47,6 +46,8 @@ Route::get('/proprietaire', [ProprietaireController::class, 'index']);
 Route::get('/', function () {
     return view('Home.home');
 });
+
+
 Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces');
 Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
 
@@ -61,20 +62,24 @@ Route::put('/biens/{bien}', [BienImmobilierController::class, 'update'])->name('
 // Route GET pour afficher le formulaire de bien
 Route::resource('biens', BienImmobilierController::class);
 Route::get('biens/search', [BienImmobilierController::class, 'search'])->name('biens.search');
-
-
+Route::post('/recherche-bien', [BienImmobilierController::class, 'search'])->name('bien.search');
+//avoir la liste des bien dans la page home *bouton liste bien
+Route::get('/listbienHome', [BienImmobilierController::class, 'indexHome'])->name('home');
 Route::get('/biens/create', [BienImmobilierController::class, 'create'])->name('biens.create');
 Route::post('/biens/store', [BienImmobilierController::class, 'store'])->name('biens.store');
 
 Route::get('/pack', [PackController::class, 'index'])->name('biens.create');
 
 
+Route::get('/vendreBien', [PackController::class, 'showPacks'])->name('packs.index');
 
 //
 
 //ROUTE QUI MARCHE
 
 //ROUTE ANNONCE QUI MARCHE
+
+
 
     // Afficher la liste des annonces
     Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces.index');
