@@ -26,7 +26,7 @@
         Notre nom, "Teranga", qui signifie "hospitalité" en wolof, reflète notre engagement à offrir un accueil chaleureux et un service exceptionnel à tous nos clients.
       </p>
 
-      <button class="btn">Faire une Demande</button>
+      <button class="btn" onclick="window.location.href='/register';">Faire une Demande</button>
 
     </div>
 

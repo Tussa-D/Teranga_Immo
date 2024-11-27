@@ -10,7 +10,8 @@
         <link rel="stylesheet" href="asset/css/bootstrap.min.css">
 	    <!----css3---->
         <link rel="stylesheet" href="asset/css/custom.css">
-		
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 		
 		<!--google fonts -->
 	    <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +39,7 @@
 		</div>
 		<ul class="list-unstyled component m-0">
 		  <li class="active">
-		  <a href="#" class="dashboard"><i class="material-icons">dashboard</i>Proprietaire Dashbord </a>
+		  <a href="#" class="dashboard"><i class="material-icons">dashboard</i>Client Dashbord </a>
 		  </li>
 		  
 		  
@@ -50,10 +51,10 @@
 		  <i class="material-icons">border_color</i>listes
 		  </a>
 		  <ul class="collapse list-unstyled menu" id="homeSubmenu5">
-            <li><a href="/listBien">Liste des utilisateurs</a></li>
-            <li><a href="/listPack">Liste des packs </a></li>
-            <li><a href="/annonces">Liste des annonces</a></li>
-            <li><a href="/bien">Liste des biens</a></li>
+            <li><a href="/user/listbien">Liste des biens</a></li>
+            <li><a href="/property/{id}">Liste des packs </a></li>
+            <li><a href="">Liste des annonces</a></li>
+            <li><a href="">Liste des biens</a></li>
 		  </ul>
 		  </li>
 		  
@@ -165,7 +166,7 @@
 				 <div class="xp-breadcrumbbar text-center">
 				    <h4 class="page-title">Dashboard</h4>
 					<ol class="breadcrumb">
-					  <li class="breadcrumb-item"><a href="#">Proprietaire</a></li>
+					  <li class="breadcrumb-item"><a href="#">Client</a></li>
 					  <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
 					</ol>
 				 </div>

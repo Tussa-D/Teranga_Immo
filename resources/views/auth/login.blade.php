@@ -29,8 +29,16 @@
                     <span class="text-danger">{{ $errors->first('password') }}</span>
                 @endif
             </div>
+            
             <input type="submit" id="submit" value="Se connecter">
+
         </form>
+    </div>
+    <a href="/" class="btn btn-secondary mt-3">Retour</a>
+     </div>
+    </div>
+    <a href="/register" class="btn btn-secondary mt-3">Inscription</a>
+     </div>
         
     </div>
 </body>

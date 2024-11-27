@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\VisiteController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\CinetPayController;
 use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\BienImmobilierController;
 
@@ -24,7 +26,7 @@ Route::delete('/admin/users/{id}', [AuthController::class, 'destroy'])->name('us
 // Afficher le formulaire d'inscription
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 // Gérer l'inscription
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 // Gérer la déconnexion
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protéger les routes qui nécessitent une authentification
@@ -36,13 +38,10 @@ Route::middleware('auth')->group(function () {
 
 
 
-//route qui marche
-
-
+//route de connection
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/proprietaire', [ProprietaireController::class, 'index']);
-
-
+Route::get('/proprietaire', [ProprietaireController::class, 'index'])->name('proprietaire');
+Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::get('/', function () {
     return view('Home.home');
 });
@@ -52,10 +51,21 @@ Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces');
 Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
 
 
+
 Route::get('/bien', [BienImmobilierController::class, 'index'])->name('bien');
+
+Route::get('/user/listbien', [ClientController::class, 'indexBien'])->name('listbien');
 Route::delete('/biens/{bien}', [BienImmobilierController::class, 'destroy'])->name('biens.destroy');
 Route::put('/biens/{bien}', [BienImmobilierController::class, 'update'])->name('biens.update');
+Route::get('/property/{id}', [BienImmobilierController::class, 'show'])->name('property.details');
+//Reservation
 
+
+
+Route::Post('/reservation/{id}', [BienImmobilierController::class, 'reserve'])->name('reservation');
+
+// Route pour contacter le propriétaire
+Route::get('/contact-owner/{id}', [BienImmobilierController::class, 'contactOwner'])->name('contact.owner');
 
 
 
@@ -72,6 +82,8 @@ Route::get('/pack', [PackController::class, 'index'])->name('biens.create');
 
 
 Route::get('/vendreBien', [PackController::class, 'showPacks'])->name('packs.index');
+
+Route::get('/listPack', [PackController::class, 'VoirPacks'])->name('pack.index');
 
 //
 
@@ -93,43 +105,8 @@ Route::get('/vendreBien', [PackController::class, 'showPacks'])->name('packs.ind
     Route::put('/annonces/{id}', [AnnonceController::class, 'update'])->name('annonces.update');
     Route::delete('/annonces/{id}', [AnnonceController::class, 'destroy'])->name('annonces.destroy');
 
-
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/admin', function () {
-//         return view('Admin.User');
-//     })->name('admin');
-
-//     Route::get('/home', function () {
-//         return view('home');
-//     })->name('home');
-
-//     Route::get('/proprietaire', function () {
-//         return view('proprietaire.dashboard');
-//     })->name('proprietaire.dashboard');
-// });
-
-
-
-
-
-
-// // Gestion des biens immobiliers
-// Route::resource('biens', BienImmobilierController::class);
-// Route::post('biens/{id}/upload-image', [BienImmobilierController::class, 'uploadImage']);
-// Route::get('/search', [BienImmobilierController::class, 'search']);
-
-// // Gestion des annonces
-// Route::resource('annonces', AnnonceController::class);
-
-// // Gestion des packs
-// Route::resource('packs', PackController::class);
-
-// // Gestion des visites (réservé aux administrateurs)
-// Route::middleware(['auth:sanctum', 'admin'])->prefix('visites')->group(function () {
-//     Route::post('/', [VisiteController::class, 'planifier']);  // Planifier une visite
-//     Route::get('/', [VisiteController::class, 'index']);       // Liste des visites
-//     Route::get('/{id}', [VisiteController::class, 'show']);    // Détails d'une visite
-//     Route::put('/{id}', [VisiteController::class, 'update']);  // Mise à jour d'une visite
-//     Route::delete('/{id}', [VisiteController::class, 'destroy']); // Suppression d'une visite
-//     Route::patch('/{id}/confirmer', [VisiteController::class, 'confirmer']); // Confirmer une visite
-// });
+    
+    Route::post('/payer-pack', [CinetPayController::class, 'payForPack'])->name('payer.pack');
+    Route::get('/payment-success', [CinetPayController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment-cancel', [CinetPayController::class, 'paymentCancel'])->name('payment.cancel');
+    

@@ -215,14 +215,12 @@
                                             <span><strong>{{ $pack->duree }}</strong> mois</span>
                                         </div>
             
-                                        <div class="card-footer-actions">
-                                            <a href="#editPackModal" class="edit" data-toggle="modal" data-id="{{ $pack->id }}">
-                                                Modifier
-                                            </a>
-                                            <a href="#deletePackModal" class="delete" data-toggle="modal" data-id="{{ $pack->id }}">
-                                                Supprimer
-                                            </a>
-                                        </div>
+                                        <form action="{{ route('payer.pack') }}" method="POST">
+                                          @csrf
+                                          <input type="hidden" name="pack_id" value="{{ $pack->id }}">
+                                          <button type="submit">Acheter ce Pack</button>
+                                      </form>
+                                      
                                     </div>
                                 </div>
                             </li>

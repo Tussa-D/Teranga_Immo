@@ -5,13 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Bien;
 use App\Models\User;
 use App\Models\Annonce;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationConfirmation;
 
 
 class BienImmobilierController extends Controller
 {
+        // Afficher le formulaire de connexion
+        public function create()
+        {
+
+        // Récupérer les utilisateurs ayant le rôle "proprietaire"
+        $proprietaires = User::where('role', 'proprietaire')->get();
+        return view('Admin.Bien.addBien', compact('proprietaires'));
+            
+        }  
+
     /**
      * Afficher une liste des biens immobiliers.
      */
@@ -29,15 +42,48 @@ class BienImmobilierController extends Controller
         return view('Home.listBien', compact('annonces', 'biens')); // Passez chaque variable séparément
 }
 
-    // Afficher le formulaire de connexion
-    public function create()
-    {
+   
 
-    // Récupérer les utilisateurs ayant le rôle "proprietaire"
-    $proprietaires = User::where('role', 'proprietaire')->get();
-    return view('Admin.Bien.addBien', compact('proprietaires'));
-       
-    }
+    public function show($id)
+        {
+            $property = Bien::with('proprietaire')->findOrFail($id); // Inclure le propriétaire et autres relations si nécessaires
+            return view('Home.detailBien', compact('property'));
+        }
+
+      
+        public function reserve($id)
+        {
+           
+            $property = Bien::findOrFail($id);  // Trouver la propriété
+        
+            // Créer la réservation
+            $reservation = Reservation::create([
+                'bien_id' => $property->id,
+                'user_id' => auth()->id(),  // L'utilisateur connecté
+                'reservation_date' => now(),  // Date de la réservation
+            ]);
+        
+              // Rediriger avec un message de succès
+            return redirect()->route('property.details', ['id' => $property->id])
+            
+                             ->with('success', 'Réservation réussie! Un email de confirmation a été envoyé.');
+        }
+        
+            // Contacter le propriétaire
+            public function contactOwner($id)
+            {
+                $bien = Bien::findOrFail($id);  // Utilisation du modèle Bien pour trouver le bien
+        
+                // Logique pour contacter le propriétaire (par exemple, envoyer un email)
+                // Vous pouvez ajouter la logique nécessaire ici
+        
+                return redirect()->route('Home.detailBien', ['id' => $bien->id])
+                                 ->with('success', 'Message envoyé au propriétaire!');
+            }
+        
+        
+
+
     public function store(Request $request)
     {
         // Validation des données

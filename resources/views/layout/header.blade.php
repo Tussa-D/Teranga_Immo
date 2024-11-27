@@ -103,6 +103,10 @@
             <li>
               <a href="#about" class="navbar-link" data-nav-link>À propos</a>
             </li>
+
+            <li>
+              <a href="/register" class="navbar-link" data-nav-link>Inscription</a>
+            </li>
            
           </ul>
         </div>
@@ -119,9 +123,10 @@
 
         <button class="header-bottom-actions-btn" onclick="window.location.href='/login';" aria-label="Profil">
           <ion-icon name="person-outline" ></ion-icon>
-            
           <span>Profil</span>
         </button>
+
+       
 
         <button class="header-bottom-actions-btn" aria-label="Panier">
           <ion-icon name="cart-outline"></ion-icon>

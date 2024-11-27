@@ -59,7 +59,7 @@
                                 <td>{{ $bien->type }}</td>
                                 <td>{{ $bien->statut }}</td>
                                 <td>
-                                    <img src="{{ asset($bien->image) }}" alt="Image du bien" width="50" height="50">
+                                    <img src="{{ asset('storage/' . $bien->image) }}" alt="Image du bien" width="50" height="50">
                                 </td>
                                 <td>{{ $bien->proprietaire->nom ?? 'Propriétaire inconnu' }} {{ $bien->proprietaire->prenom ?? '' }}</td>
 

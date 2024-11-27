@@ -44,6 +44,11 @@ class Bien extends Model
         return $this->belongsTo(User::class, 'proprietaire_id');
     }
 
+      // Relation entre Bien et Réservation (un bien peut avoir plusieurs réservations)
+      public function reservations()
+      {
+          return $this->hasMany(Reservation::class);  // Le modèle Reservation devra être créé
+      }
 //    public function annonces(): HasMany
 //    {
 //        return $this->hasMany(Annonce::class);

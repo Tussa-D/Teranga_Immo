@@ -221,7 +221,7 @@
                                 <!-- Détails du bien -->
                                 <div class="card-content">
                                     <div class="card-price">
-                                        <strong>{{ number_format($bien->prix, 2, ',', ' ') }} €</strong>/Mois
+                                        <strong>{{ number_format($bien->prix, 2, ',', ' ') }} frcfa</strong>/Mois
                                     </div>
                                     <h3 class="h3 card-title">
                                         <a href="#">{{ $bien->titre }}</a>
@@ -229,23 +229,7 @@
                                     <p class="card-text">
                                         {{ Str::limit($bien->description, 100) }}
                                     </p>
-                                    <ul class="card-list">
-                                        <li class="card-item">
-                                            <strong>{{ $bien->Nbpiece }}</strong>
-                                            <ion-icon name="bed-outline"></ion-icon>
-                                            <span>Nombre de Piece</span>
-                                        </li>
-                                        <li class="card-item">
-                                            <strong>{{ $bien->statut }}</strong>
-                                            <ion-icon name="man-outline"></ion-icon>
-                                            <span>Statut</span>
-                                        </li>
-                                        <li class="card-item">
-                                            <strong>{{ number_format($bien->surface, 0, ',', ' ') }}</strong>
-                                            <ion-icon name="square-outline"></ion-icon>
-                                            <span>Surface</span>
-                                        </li>
-                                    </ul>
+                                   
                                 </div>
     
                                 <!-- Auteur du bien (propriétaire ou agent immobilier) -->
@@ -275,9 +259,15 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div class="card-actions">
+                                  <a href="{{ route('property.details', ['id' => $bien->id]) }}" class="btn btn-primary">
+                                      Détails
+                                  </a>
+                              </div>
     
                             </div>
                         </li>
+                        
                     @endforeach
                 @else
                     <p>Aucun bien trouvé</p>

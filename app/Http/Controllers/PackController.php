@@ -15,6 +15,12 @@ class PackController extends Controller
     return view('Home.vendreBien', compact('packs')); // Passe les packs à la vue
 }
 
+    public function VoirPacks()
+    {
+        $packs = Pack::all(); // Récupère tous les packs
+        return view('Proprietaire.listePack', compact('packs')); // Passe les packs à la vue
+    }
+
     // Liste tous les packs disponibles
     public function index()
     {
