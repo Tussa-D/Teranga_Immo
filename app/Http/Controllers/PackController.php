@@ -9,6 +9,34 @@ use Illuminate\Support\Facades\Validator;
 
 class PackController extends Controller
 {
+    public function payerPack(Request $request)
+    {
+        // Vérifier si l'utilisateur est connecté
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour acheter un pack.');
+        }
+
+        $user = Auth::user();
+        $packId = $request->input('pack_id');
+        
+        // Récupérer les informations du pack
+        $pack = Pack::findOrFail($packId);
+
+        // Logique pour traiter le paiement
+        // Vous pouvez intégrer ici une passerelle de paiement comme Stripe, PayPal, etc.
+        
+        // Si le paiement est validé, enregistrer la transaction
+        $transaction = new Transaction();
+        $transaction->user_id = $user->id;
+        $transaction->pack_id = $pack->id;
+        $transaction->montant = $pack->prix;
+        $transaction->status = 'success'; // Vous pouvez mettre en place un système de statut
+        $transaction->save();
+
+        // Rediriger vers une page de confirmation de paiement
+        return redirect()->route('paiement.success')->with('success', 'Votre paiement a été effectué avec succès.');
+    }
+
     public function showPacks()
 {
     $packs = Pack::all(); // Récupère tous les packs
@@ -27,6 +55,14 @@ class PackController extends Controller
         $packs = Pack::all();
         return view('Admin.Pack.pack', compact('packs'));
     }
+     // Liste tous les packs disponibles
+     public function indexProprio()
+     {
+         $packs = Pack::all();
+         return view('Proprietaire.listePack', compact('packs'));
+     }
+
+
 
     // Créer un nouveau pack
     public function store(Request $request)

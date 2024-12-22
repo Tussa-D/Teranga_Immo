@@ -219,7 +219,7 @@
                         <div class="card-content">
 
                             <div class="card-price">
-                                <strong>${{ number_format($property->prix, 0, ',', ' ') }}</strong>/Mois
+                                <strong>Frcfa {{ number_format($property->prix, 0, ',', ' ') }}</strong>/Mois
                             </div>
 
                             <h3 class="h3 card-title">

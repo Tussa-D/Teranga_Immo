@@ -65,13 +65,13 @@
                 </div>
       
                 <div class="champ-saisie">
-                    <label for="prix_min">Prix Min (€)</label>
-                    <input type="number" id="prix_min" name="prix_min" placeholder="€" value="{{ old('prix_min') }}">
+                    <label for="prix_min">Prix Min (Frcfa)</label>
+                    <input type="number" id="prix_min" name="prix_min" placeholder="Frcfa" value="{{ old('prix_min') }}">
                 </div>
       
                 <div class="champ-saisie">
-                    <label for="prix_max">Prix Max (€)</label>
-                    <input type="number" id="prix_max" name="prix_max" placeholder="€" value="{{ old('prix_max') }}">
+                    <label for="prix_max">Prix Max (Frcfa)</label>
+                    <input type="number" id="prix_max" name="prix_max" placeholder="Frcfa" value="{{ old('prix_max') }}">
                 </div>
       
                 <div class="champ-saisie">

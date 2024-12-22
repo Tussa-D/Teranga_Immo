@@ -3,13 +3,24 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
 class AuthController extends Controller
 {
-    
+    public function __construct()
+    {
+        // Applique le middleware "auth" à toutes les méthodes sauf celles spécifiées ici
+        $this->middleware('auth')->except([
+            'showLoginForm',
+            'login',
+            'showRegisterForm',
+            'register',
+        ]);
+    }
 
     // Afficher le formulaire de connexion
     public function showLoginForm()
@@ -39,26 +50,38 @@ class AuthController extends Controller
                 // Authentifier l'utilisateur avec Laravel
             Auth::login($user);
          
+
+            if (Auth::check()) {
+                
+                \Log::info('Utilisateur authentifié avec succès : ' . $user->email);
+            } else {
+                \Log::error('Problème d\'authentification pour : ' . $request->email);
+                return back()->withErrors(['error' => 'Échec de l\'authentification'])->withInput();
+            }
+            
+
             if (session()->has('redirect_url')) {
                 $redirect_url = session('redirect_url');
                 session()->forget('redirect_url'); // Supprime l'URL après utilisation
                 return redirect($redirect_url)->with('success', 'Bienvenue, vous pouvez poursuivre votre réservation.');
             }
 
-            // Redirection en fonction du rôle de l'utilisateur
+                        // Redirection en fonction du rôle de l'utilisateur
+                        // Redirection en fonction du rôle de l'utilisateur
             if ($user->role === 'admin') {
+                Log::info('Redirection vers la page Admin pour : ' . $user->email); // Log avant la redirection
                 return redirect()->route('admin')->with('success', 'Bienvenue, Admin');
             } elseif ($user->role === 'proprietaire') {
+                Log::info('Redirection vers la page Propriétaire pour : ' . $user->email); // Log avant la redirection
                 return redirect()->route('proprietaire')->with('success', 'Bienvenue, Propriétaire');
             } elseif ($user->role === 'client') {
-                // Sinon, rediriger vers la page d'accueil
-                // Vérifiez si une URL de redirection existe
-                $user = auth()->user();
+                Log::info('Redirection vers la page Client pour : ' . $user->email); // Log avant la redirection
                 return redirect()->route('home')->with('success', 'Bienvenue sur la page d\'accueil');
             } else {
-                // Par défaut, rediriger vers la page d'accueil si le rôle est inconnu
+                Log::info('Redirection vers la page d\'accueil par défaut pour : ' . $user->email); // Log avant la redirection
                 return redirect()->route('home')->with('success', 'Bienvenue');
             }
+
 
     }
     

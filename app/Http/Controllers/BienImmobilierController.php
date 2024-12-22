@@ -7,10 +7,12 @@ use App\Models\User;
 use App\Models\Annonce;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReservationConfirmation;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 class BienImmobilierController extends Controller
@@ -32,6 +34,15 @@ class BienImmobilierController extends Controller
     {
         $biens = Bien::paginate(10);
         return view('Admin.Bien.listeBien', compact('biens'));
+    }
+    public function indexProprio()
+    {
+        $biens = Bien::where('proprietaire_id', Auth::id())->get();
+
+        // Retourner la vue avec les biens
+       
+        $biens = Bien::paginate(10);
+        return view('Proprietaire.listeBien', compact('biens'));
     }
 
     public function indexHome()
@@ -85,6 +96,62 @@ class BienImmobilierController extends Controller
 
 
     public function store(Request $request)
+    {
+        // Validation des données
+        $validator = Validator::make($request->all(), [
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'prix' => 'required|numeric',
+            'Nbpiece' => 'required|integer',
+            'adresse' => 'required|string',
+            'surface' => 'required|numeric',
+            'type' => 'required|string',
+    
+            'statut' => 'required|in:Disponible,Sous Offre,Vendu,Retiré',
+            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:10240',  // Taille de fichier max 10 Mo
+            'video' => 'nullable|mimes:mp4,mkv,avi|max:50000',  // Taille de fichier max 50 Mo
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->route('biens.create')
+                             ->withErrors($validator)
+                             ->withInput();
+        }
+    
+        // Gestion de l'image
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            // Stocke l'image dans le dossier 'images' du répertoire public
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
+    
+        // Gestion de la vidéo
+        $videoPath = null;
+        if ($request->hasFile('video')) {
+            // Stocke la vidéo dans le dossier 'videos' du répertoire public
+            $videoPath = $request->file('video')->store('videos', 'public');
+        }
+    
+        // Création du bien immobilier
+        Bien::create([
+            'titre' => $request->input('titre'),
+            'description' => $request->input('description'),
+            'prix' => $request->input('prix'),
+            'Nbpiece' => $request->input('Nbpiece'),
+            'adresse' => $request->input('adresse'),
+            'surface' => $request->input('surface'),
+            'type' => $request->input('type'),
+            'statut' => $request->input('statut'),
+            'image' => $imagePath,   // Chemin relatif de l'image
+            'video' => $videoPath,   // Chemin relatif de la vidéo
+            'proprietaire_id' => $request->input('proprietaire_id') 
+        ]);
+    
+        // Message de succès
+        return redirect()->route('biens.create')->with('success', 'Le bien immobilier a été ajouté avec succès.');
+    }
+
+    public function storeProprio(Request $request)
     {
         // Validation des données
         $validator = Validator::make($request->all(), [
@@ -227,9 +294,14 @@ class BienImmobilierController extends Controller
     // Récupération des annonces avec les propriétaires
     $annonces = Annonce::with('proprietaire')->get();
 
+ 
     // Afficher la vue avec les résultats
     return view('Home.home.listeSearch', compact('biens', 'annonces'));
 }
+
+
+
+
 
     public function update(Request $request, $id)
     {
@@ -254,20 +326,23 @@ class BienImmobilierController extends Controller
     
         // Trouver le bien immobilier par son ID
         $bien = Bien::findOrFail($id);
-    
-        // Mise à jour des données du bien
+        // Ajouter des messages de log
+        $log->info($bien);
+        
+              // Mise à jour des données du bien
         $bien->update([
-           'titre' => $request->input('titre'),
-            'description' => $request->input('description'),
-            'prix' => $request->input('prix'),
-            'Nbpiece' => $request->input('Nbpiece'),
-            'adresse' => $request->input('adresse'),
-            'surface' => $request->input('surface'),
-            'type' => $request->input('type'),
-            'statut' => $request->input('statut'),
+         
+           'titre' => $request->titre,
+            'description' => $request->description,
+            'prix' => $request->prix,
+            'Nbpiece' => $request->Nbpiece,
+            'adresse' => $request->adresse,
+            'surface' => $request->surface,
+            'type' => $request->type,
+            'statut' => $request->statut,
             'image' => $imagePath,   // Chemin relatif de l'image
             'video' => $videoPath,   // Chemin relatif de la vidéo
-            'proprietaire_id' => $request->input('proprietaire_id') 
+            'proprietaire_id' => $request->proprietaire_id 
         ]);
     
         // Gestion de l'image si un fichier est téléchargé

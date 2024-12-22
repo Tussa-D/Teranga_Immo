@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-        <title>crud dashboard</title>
+        <title>Teranga Immo</title>
 	    <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="asset/css/bootstrap.min.css">
 	    <!----css3---->
@@ -50,10 +50,10 @@
 		  <i class="material-icons">border_color</i>listes
 		  </a>
 		  <ul class="collapse list-unstyled menu" id="homeSubmenu5">
-            <li><a href="/listBien">Liste des utilisateurs</a></li>
-            <li><a href="/listPack">Liste des packs </a></li>
-            <li><a href="/annonces">Liste des annonces</a></li>
-            <li><a href="/bien">Liste des biens</a></li>
+    
+            <li><a href="/annoncesProprio">Liste de mes annonces</a></li>
+			<li><a href="/packProprio">Liste des packs</a></li>
+            <li><a href="/listbienProprio">Liste de mes biens</a></li>
 		  </ul>
 		  </li>
 		  
@@ -146,7 +146,7 @@
 									 <span class="material-icons">settings</span>
 									 Settings
 									 </a></li>
-									 <li><a href="#">
+									 <li><a href="/">
 									 <span class="material-icons">logout</span>
 									 Logout
 									 </a></li>

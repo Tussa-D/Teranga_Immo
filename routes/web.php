@@ -13,6 +13,8 @@ use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\BienImmobilierController;
 
 
+
+
 // Route GET pour afficher le formulaire de connexion
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 // Route POST pour traiter la soumission du formulaire de connexion
@@ -34,20 +36,38 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
     Route::put('/profile', [AuthController::class, 'updateProfile']);
     Route::delete('/profile', [AuthController::class, 'deleteAccount']);
+   
+    
 });
 
 
+    Route::get('/listbienProprio', [BienImmobilierController::class, 'indexProprio'])->name('listbienProprio');
 
-//route de connection
+
+// //route de connection
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/proprietaire', [ProprietaireController::class, 'index'])->name('proprietaire');
 Route::get('/client', [ClientController::class, 'index'])->name('client');
+
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+// });
+
+// Route::middleware(['auth', 'role:proprietaire'])->group(function () {
+//     Route::get('/proprietaire', [ProprietaireController::class, 'index'])->name('proprietaire');
+// });
+
+// Route::middleware(['auth', 'role:client'])->group(function () {
+//     Route::get('/client', [ClientController::class, 'index'])->name('client');
+// });
+
 Route::get('/', function () {
     return view('Home.home');
 });
 
 
 Route::get('/annonces', [AnnonceController::class, 'index'])->name('annonces');
+Route::get('/annoncesProprio', [AnnonceController::class, 'indexProprio'])->name('annoncesProprio');
 Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
 
 
@@ -71,6 +91,7 @@ Route::get('/contact-owner/{id}', [BienImmobilierController::class, 'contactOwne
 
 // Route GET pour afficher le formulaire de bien
 Route::resource('biens', BienImmobilierController::class);
+
 Route::get('biens/search', [BienImmobilierController::class, 'search'])->name('biens.search');
 Route::post('/recherche-bien', [BienImmobilierController::class, 'search'])->name('bien.search');
 //avoir la liste des bien dans la page home *bouton liste bien
@@ -80,6 +101,7 @@ Route::post('/biens/store', [BienImmobilierController::class, 'store'])->name('b
 
 Route::get('/pack', [PackController::class, 'index'])->name('biens.create');
 
+Route::get('/packProprio', [PackController::class, 'indexProprio'])->name('packProprio');
 
 Route::get('/vendreBien', [PackController::class, 'showPacks'])->name('packs.index');
 
@@ -98,6 +120,7 @@ Route::get('/listPack', [PackController::class, 'VoirPacks'])->name('pack.index'
     // Afficher le formulaire pour ajouter une annonce
     Route::get('/annonces/create', [AnnonceController::class, 'create'])->name('annonces.create');
     // Ajouter une annonce (POST)
+    Route::post('/annonceProprio', [AnnonceController::class, 'storeProprio'])->name('annonceProprio');
     Route::post('/annonces', [AnnonceController::class, 'store'])->name('annonces.store');
     // Afficher le formulaire pour éditer une annonce
 

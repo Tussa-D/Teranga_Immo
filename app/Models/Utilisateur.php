@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Bien;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Utilisateur extends Authenticatable
 {
@@ -30,5 +31,9 @@ class Utilisateur extends Authenticatable
     public function setPasswordAttribute($password)
     {
         $this->attributes['mot_de_passe'] = bcrypt($password);
+    }
+    public function biens()
+    {
+        return $this->hasMany(Bien::class, 'proprietaire_id');
     }
 }

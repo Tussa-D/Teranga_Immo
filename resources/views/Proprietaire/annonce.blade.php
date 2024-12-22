@@ -1,8 +1,7 @@
-@extends('Admin.admin')
 
-@section('content')
+@extends('Proprietaire.proprietaire')
 
-<div class="main-content">
+@section('content')<div class="main-content">
     <div class="row">
         <div class="col-md-12">
             <div class="table-wrapper">
@@ -35,7 +34,7 @@
                             <th>Image</th>
                             <th>Vidéo</th>
                             <th>Statut</th>
-                            <th>Propriétaire</th>
+                          
                             <th>Bien Associé</th>
                             <th>Actions</th>
                         </tr>
@@ -51,9 +50,8 @@
 
                                 <!-- Affichage de l'image -->
                                 <td>
-                                    
                                     @if($annonce->image)
-                                        <img src="{{ asset('storage/' .$annonce->image) }}" alt="Image" width="50" height="50">
+                                        <img src="{{ asset($annonce->image) }}" alt="Image" width="50" height="50">
                                     @else
                                         N/A
                                     @endif
@@ -79,9 +77,7 @@
                                   </select>
                               </td> 
                                 
-                                <!-- Affichage du nom du propriétaire -->
-                                <td>{{ $annonce->proprietaire->nom ?? 'Propriétaire inconnu' }} {{ $annonce->proprietaire->prenom ??  'Propriétaire inconnu'  }}</td>
-                              
+                               
                                 <!-- Affichage du titre du bien associé -->
                                 <td>{{ $annonce->bien->titre ?? 'Bien non défini' }}</td>
                                 
@@ -120,7 +116,7 @@
                   <span aria-hidden="true">&times;</span>
               </button>
           </div>
-          <form method="POST" action="{{ route('annonces.store') }}" enctype="multipart/form-data">
+          <form method="POST" action="{{ route('annonceProprio') }}" enctype="multipart/form-data">
               @csrf
               <div class="modal-body">
                   <div class="form-group">
@@ -156,17 +152,7 @@
                       </select>
                   </div>
               </div>
-              <div class="form-group">
-                <label for="proprietaire_id">Propriétaire</label>
-                <select name="proprietaire_id" id="proprietaire_id" class="form-control" required>
-                    @foreach($proprietaires as $proprietaire)
-                        <option value="{{ $proprietaire->id }}">{{ $proprietaire->nom }} {{ $proprietaire->prenom }}</option>
-                    @endforeach
-                </select>
-                @error('proprietaire_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
+             
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                   <button type="submit" class="btn btn-success">Ajouter</button>

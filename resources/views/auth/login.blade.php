@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link rel="stylesheet" href="asset/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
    
@@ -31,15 +33,23 @@
             </div>
             
             <input type="submit" id="submit" value="Se connecter">
-
+            
+            <a href="/register" class="btn btn-secondary mt-3 d-flex align-items-center justify-content-center" style="gap: 8px; transition: all 0.3s;">
+                <i class="fas fa-user-plus" style="font-size: 16px;"></i> 
+                <span>Inscription</span>
+            </a>
+            <style>
+                .btn-secondary:hover {
+                    background-color: #0b87f4; /* Couleur plus foncée */
+                    color: #fff;
+                    transform: scale(1.05); /* Agrandissement léger */
+                }
+            </style>
+            <br>
+             <a href="/" class="btn btn-secondary mt-3">Retour</a> 
+            <br/>
+          
         </form>
-    </div>
-    <a href="/" class="btn btn-secondary mt-3">Retour</a>
-     </div>
-    </div>
-    <a href="/register" class="btn btn-secondary mt-3">Inscription</a>
-     </div>
-        
-    </div>
+   
 </body>
 </html>

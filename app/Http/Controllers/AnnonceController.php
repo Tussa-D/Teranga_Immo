@@ -31,6 +31,22 @@ class AnnonceController extends Controller
     // Passer les variables $biens, $annonces, et $proprietaires à la vue
     return view('Admin.Annonce', compact('biens', 'annonces', 'proprietaires'));
     }
+    
+    public function indexProprio()
+    {
+          // Récupérer tous les biens immobiliers
+    $biens = Bien::all();
+    
+    // Récupérer tous les propriétaires
+    $proprietaires = User::where('role', 'proprietaire')->get();
+    
+    // Récupérer les annonces avec la pagination
+    $annonces = Annonce::with('bien', 'proprietaire')->paginate(10);
+
+    // Passer les variables $biens, $annonces, et $proprietaires à la vue
+    return view('Proprietaire.annonce', compact('biens', 'annonces', 'proprietaires'));
+    }
+
 
     /**
      * Afficher le formulaire de création d'une nouvelle annonce.
@@ -46,6 +62,54 @@ class AnnonceController extends Controller
         return view('Admin.Annonce.create', compact('biens', 'proprietaires'));
 
     }
+
+
+    public function storeProprio(Request $request)
+    {
+        // Validation des données
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date_publication' => 'required|date',
+            'statut' => 'required|in:En cours,Active,Suspended,Expired,Archived', // Validation des statuts valides
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Image optionnelle, avec types et taille limités
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:51200', // Vidéo optionnelle, avec types et taille limite de 50MB
+            'bien_id' => 'required|exists:bien_immobilier,id', // Validation pour s'assurer que le bien existe
+            'proprietaire_id' => 'required|exists:users,id', // Validation pour s'assurer que le propriétaire existe
+        ]);
+    
+        // Créer une nouvelle annonce
+        $annonce = new Annonce();
+        
+        // Attribuer les données de la requête à l'annonce
+        $annonce->titre = $request->titre;
+        $annonce->description = $request->description;
+        $annonce->date_publication = Carbon::parse($request->date_publication)->format('Y-m-d');
+        $annonce->bien_id = $request->bien_id;
+        $annonce->proprietaire_id = $request->proprietaire_id;
+        $annonce->statut = $request->statut;
+    
+        // Gérer l'upload de l'image (si présente)
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/annonces', 'public');
+            $annonce->image = $imagePath;
+        }
+    
+        // Gérer l'upload de la vidéo (si présente)
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('videos/annonces', 'public');
+            $annonce->video = $videoPath;
+        }
+    
+        // Sauvegarder l'annonce dans la base de données
+        $annonce->save();
+    
+        // Retourner une réponse ou rediriger
+        return redirect()->route('annoncesProprio')->with('success', 'Annonce ajoutée avec succès');
+    }
+
+
+
 
     /**
      * Créer une nouvelle annonce.

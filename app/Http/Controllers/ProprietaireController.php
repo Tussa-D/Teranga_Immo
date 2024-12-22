@@ -10,4 +10,6 @@ class ProprietaireController extends Controller
     {
         return view('Proprietaire.proprietaire');
     }
+   
 }
+

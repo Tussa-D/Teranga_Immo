@@ -158,7 +158,7 @@
             <span>Profil</span>
           </button>
   
-          <button class="header-bottom-actions-btn" aria-label="Panier">
+          <button  class="header-bottom-actions-btn" aria-label="Panier">
             <ion-icon name="cart-outline"></ion-icon>
   
             <span>Panier</span>
@@ -196,9 +196,11 @@
     
                                 <!-- Image du bien -->
                                 <figure class="card-banner">
+                                
                                     <a href="#">
-                                        <img src="{{ asset($bien->image_path ?? 'images/default.jpg') }}" alt="{{ $bien->type }} - {{ $bien->localisation }}" class="w-100">
+                                      <img src="{{ asset('storage/' . $bien->image) }}" alt="{{ $bien->type }} - {{ $bien->localisation }}" class="w-100">
                                     </a>
+                                    
                                     <div class="card-badge {{ $bien->type === 'Location' ? 'green' : 'orange' }}">
                                         {{ ucfirst($bien->type) }}
                                     </div>

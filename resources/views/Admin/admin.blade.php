@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-        <title>crud dashboard</title>
+        <title>Teranga Immo</title>
 	    <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="asset/css/bootstrap.min.css">
 	    <!----css3---->
@@ -146,7 +146,7 @@
 									 <span class="material-icons">settings</span>
 									 Settings
 									 </a></li>
-									 <li><a href="#">
+									 <li><a href="/">
 									 <span class="material-icons">logout</span>
 									 Logout
 									 </a></li>

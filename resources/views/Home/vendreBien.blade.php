@@ -218,8 +218,15 @@
                                         <form action="{{ route('payer.pack') }}" method="POST">
                                           @csrf
                                           <input type="hidden" name="pack_id" value="{{ $pack->id }}">
-                                          <button type="submit">Acheter ce Pack</button>
-                                      </form>
+                                          
+                                          <!-- Vérifier si l'utilisateur est connecté -->
+                                          @auth
+                                            <button type="submit">Acheter ce Pack</button>
+                                          @else
+                                            <a href="{{ route('login') }}" class="btn">Connectez-vous pour acheter ce pack</a>
+                                          @endauth
+                                        </form>
+                                        
                                       
                                     </div>
                                 </div>

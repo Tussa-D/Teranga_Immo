@@ -1,4 +1,4 @@
-@extends('Admin.admin')
+@extends('Proprietaire.proprietaire')
 
 @section('content')
 <!------main-content-start-----------> 
@@ -9,7 +9,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                            <h2 class="ml-lg-2">Gestion des Biens Immobiliers</h2>
+                            <h2 class="ml-lg-2">Mes Biens Immobiliers</h2>
                         </div>
                         <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
                             <a href="/biens/create" class="btn btn-success" >
@@ -40,14 +40,15 @@
                             
                             <th>image</th>
             
-                            <th>Proprietaire</th>
+                           
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                      
                         @foreach($biens as $bien)
-                            <tr>
+                      
+                        <tr>
                                 <td><input type="checkbox" name="bien[]" value="{{ $bien->id }}"></td>
                               
                                 <td>{{ $bien->titre }}</td>
@@ -61,9 +62,7 @@
                                 <td>
                                     <img src="{{ asset('storage/' . $bien->image) }}" alt="Image du bien" width="50" height="50">
                                 </td>
-                                <td>{{ $bien->proprietaire->nom ?? 'Propriétaire inconnu' }} {{ $bien->proprietaire->prenom ?? '' }}</td>
-
-                                <td>
+                                                      <td>
                                     <a href="#editAnnonceModal{{ $bien->id }}" class="edit" data-toggle="modal" data-id="{{ $bien->id }}">
                                         <i class="material-icons" data-toggle="tooltip" title="Modifier">&#xE254;</i>
                                     </a>                                    
@@ -72,9 +71,43 @@
                                     </a>
                                     
                                 </td>
-                            </tr>
+                            </tr> 
+
                         @endforeach
+                    </tbody> --}}
+                    <tbody>
+                        @forelse($biens as $bien)
+                            <tr>
+                                <td><input type="checkbox" name="bien[]" value="{{ $bien->id }}"></td>
+                                <td>{{ $bien->titre }}</td>
+                                <td>{{ $bien->description }}</td>
+                            
+                                <td>{{ number_format($bien->prix, 2, ',', '.') }} Frcfa</td>
+
+                                <td>{{ $bien->Nbpiece }}</td>
+                                <td>{{ $bien->adresse }}</td>
+                                <td>{{ $bien->surface }} m²</td>
+                                <td>{{ $bien->type }}</td>
+                                <td>{{ $bien->statut }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/' . $bien->image) }}" alt="Image du bien" width="50" height="50">
+                                </td>
+                                <td>
+                                    <a href="#editAnnonceModal{{ $bien->id }}" class="edit" data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Modifier">&#xE254;</i>
+                                    </a>
+                                    <a href="#deleteAnnonceModal{{ $bien->id }}" class="delete" data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Supprimer">&#xE872;</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="11" class="text-center">Vous n'avez pas encore ajouté de bien immobilier.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
+                    
                 </table>
 
                 <div class="clearfix">
@@ -117,23 +150,11 @@
                             <input type="text" name="surface" class="form-control" value="{{ $bien->surface }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="surface">Nbpiece</label>
-                            <input type="text" name="surface" class="form-control" value="{{ $bien->Nbpiece }}" required>
-                        </div>
-                        <div class="form-group">
                             <label for="adresse">Adresse</label>
                             <input type="text" name="adresse" class="form-control" value="{{ $bien->adresse }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="adresse">Type</label>
-                            <input type="text" name="adresse" class="form-control" value="{{ $bien->type }}" required>
-                        </div>
-                        <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" name="image" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="video">Video</label>
                             <input type="file" name="image" class="form-control">
                         </div>
                     </div>
@@ -146,9 +167,6 @@
         </div>
     </div>
 @endforeach
-
-
-
 
 
 <!-- Modale de suppression -->
@@ -179,5 +197,5 @@
 @endforeach
 
 
-      @endsection
-    
+
+    @endsection

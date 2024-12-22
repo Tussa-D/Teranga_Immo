@@ -55,7 +55,7 @@
 
         </ul>
 
-        <button class="header-top-btn" onclick="window.location.href='/login';">Ajouter une annonce</button>
+        <button class="header-top-btn" onclick="window.location.href='/login';">Devenir Proprietaire</button>
 
       </div>
 
@@ -128,7 +128,7 @@
 
        
 
-        <button class="header-bottom-actions-btn" aria-label="Panier">
+        <button class="header-bottom-actions-btn"  onclick="window.location.href='/listbienHome';" aria-label="Panier">
           <ion-icon name="cart-outline"></ion-icon>
 
           <span>Panier</span>
